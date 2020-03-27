@@ -17,6 +17,7 @@ public class Startup extends PApplet
     Minim minim;
     AudioOutput out;
     Oscil wave;
+    PFont consoleFont;
 
     float oscilAmp = 500;
     float lineX = 0;
@@ -26,6 +27,10 @@ public class Startup extends PApplet
     int count = 0;
     boolean halfParab = false;
     boolean loaded = false;
+    boolean welcomed = false;
+    boolean start = false;
+
+    float barW = 0;
 
     public void settings()
     {
@@ -38,30 +43,75 @@ public class Startup extends PApplet
 
         out = minim.getLineOut();
         wave = new Oscil(oscilAmp, 0.5f, Waves.SINE);
-        wave.patch(out);
+        consoleFont = createFont("LUCON.TTF", 40);
+        textFont(consoleFont);
         background(0);
         colorMode(HSB);
     }
 
     public void draw()
     {
-        if(loaded == false)
+        checker();
+    }
+
+    public void checker()
+    {
+        if(welcomed == false)
         {
-            loadingBar();
-            loaded = true;
+            welcome();
         }
-        if(loaded == true)
+
+        if(welcomed == true)
         {
-            if(count <= width)
+            if(loaded == false)
             {
-                drawParabola();
+                loadingBar();
             }
-            if(count >= width)
+            if(loaded == true)
             {
-                minim.stop();
+                if(count <= width)
+                {
+                    drawParabola();
+                }
+                if(count >= width)
+                {
+                    minim.stop();
+                    background(0);
+                    if (start == false)
+                    {
+                        checksComplete();
+                    }
+                }
             }
         }
-        
+    }
+
+    public void welcome()
+    {
+        float cx = width / 2;
+        float cy = height / 2;
+        float border = 30;
+        float topAlignY = cy - (cy /2);
+        float bulletOffsetX = cx - (cx / 2);
+        float bulletOffsetY = topAlignY / 2;
+        float bulletR = 20;
+
+        background(0);
+        noFill();
+        stroke(255);
+        textSize(30);
+        textAlign(CENTER, CENTER);
+
+        text("Welcome!", cx, border);
+        text("The following checks\nwill now take place:", cx, topAlignY);
+        text("Press space to continue...", cx, height - border);
+
+        textAlign(LEFT, CENTER);
+
+        ellipse(bulletOffsetX, cy, bulletR, bulletR);
+        text("Sound check", bulletOffsetX + (bulletR * 2), cy);
+        ellipse(bulletOffsetX, cy + bulletOffsetY, bulletR, bulletR);
+        text("Colour check", bulletOffsetX + (bulletR * 2), cy + bulletOffsetY);
     }
 
     public void drawParabola()
@@ -83,7 +133,6 @@ public class Startup extends PApplet
             offset += 0.01f;
         }
         
-        
         if(halfParab == true)
         {
             beginShape();
@@ -101,6 +150,7 @@ public class Startup extends PApplet
         {
             halfParab = true;
         }
+            
         
     }
 
@@ -108,7 +158,6 @@ public class Startup extends PApplet
     {
         float cx = width / 2;
         float cy = height / 2;
-        PFont consoleFont;
         float barFrameX = cx /2;
         float barFrameY = cy + (cy / 2);
         float barFrameH = cy / 10;
@@ -117,25 +166,47 @@ public class Startup extends PApplet
         float barX = barFrameX + padding;
         float barY = barFrameY + padding;
         float barH = barFrameH - (padding * 2);
-        float barW = 0;
 
-        consoleFont = createFont("LUCON.TTF", 40);
-        textFont(consoleFont);
+        textAlign(CENTER, CENTER);
+
         fill(255);
         background(0);
-        text("LOADING...", cx - 100, cy);
+        text("LOADING...", cx, cy);
         noFill();
         stroke(255);
         rect(barFrameX, barFrameY, barFrameW, barFrameH, padding);
         fill(255);
-        // while(barW <= barFrameW - (padding * 2))
+        rect(barX, barY, barW, barH);
+        barW += 1f;
+        // for(barW = 0; barW <= barFrameW - (padding * 2); barW++)
         // {
-        //     rect(barX, barY, barW, barH);
-        //     barW += 0.01f;
+        //     rect(barX, barY, barW, barH);   
         // }
-        for(barW = 0; barW <= barFrameW - (padding * 2); barW++)
+        if(barW == (barFrameW - (padding * 2)))
         {
-            rect(barX, barY, barW, barH);   
+            loaded = true;
+            wave.patch(out);
+            background(0);
+        }
+    }
+
+    public void checksComplete()
+    {
+        float cx = width / 2;
+        float cy = height / 2;
+
+        text("Checks Complete!\n\nPress s to start...", cx, cy);
+    }
+
+    public void keyPressed()
+    {
+        if(key == ' ')
+        {
+            welcomed = true;
+        }
+        if(key =='s')
+        {
+            start = true;
         }
     }
 }
