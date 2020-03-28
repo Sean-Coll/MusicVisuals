@@ -21,9 +21,8 @@ public class Startup extends PApplet
 
     float oscilAmp = 500;
     float lineX = 0;
-    float lineY = 450;
+    float lineY = (height / 15);
     float offset = 0.1f;
-    float parabTop = 250;
     int count = 0;
     boolean halfParab = false;
     boolean loaded = false;
@@ -34,8 +33,8 @@ public class Startup extends PApplet
 
     public void settings()
     {
-        size(500,500, P3D);
-        // fullScreen();
+        size(500,500);
+        fullScreen();
     }
 
     public void setup()
@@ -44,7 +43,7 @@ public class Startup extends PApplet
 
         out = minim.getLineOut();
         wave = new Oscil(oscilAmp, 0.5f, Waves.SINE);
-        consoleFont = createFont("LUCON.TTF", 40);
+        consoleFont = createFont("LUCON.TTF", 32);
         textFont(consoleFont);
         background(0);
         colorMode(HSB);
@@ -91,20 +90,20 @@ public class Startup extends PApplet
     {
         float cx = width / 2;
         float cy = height / 2;
-        float border = 30;
+        float border = width / 15;
         float topAlignY = cy - (cy /2);
         float bulletOffsetX = cx - (cx / 2);
         float bulletOffsetY = topAlignY / 2;
-        float bulletR = 20;
+        float bulletR = 30;
 
         background(0);
         noFill();
         stroke(255);
-        textSize(30);
+        textSize(45);
         textAlign(CENTER, CENTER);
 
         text("Welcome!", cx, border);
-        text("The following checks\nwill now take place:", cx, topAlignY);
+        text("The following checks will now take place:", cx, topAlignY);
         text("Press space to continue...", cx, height - border);
 
         textAlign(LEFT, CENTER);
@@ -117,7 +116,14 @@ public class Startup extends PApplet
 
     public void drawParabola()
     {
-        float lineCol = map(oscilAmp, 500, 1250, 0, 255);
+        float ampMin = 500;
+        float ampMax = 4000;
+        float lineCol = map(oscilAmp, ampMin, ampMax, 0, 255);
+        float parabTop = width / 2;
+        float border = height / 15;
+        float lineOffset = 0.01f;
+        lineY = map(oscilAmp, ampMin, ampMax, height - border,  border);
+        
         strokeWeight(10);
         stroke(lineCol, 255, 255);
 
@@ -125,26 +131,26 @@ public class Startup extends PApplet
         {
             beginShape();
             vertex(lineX,lineY);
-            lineX++;
-            lineY = map(oscilAmp, 500, 1250, 450, 50);
+            lineX += 1;
+            lineY = map(oscilAmp, ampMin, ampMax, height - border,  border);
             oscilAmp += 1 + offset;
             wave.setFrequency(oscilAmp);
             vertex(lineX,lineY);
             endShape();
-            offset += 0.01f;
+            offset += lineOffset;
         }
         
         if(halfParab == true)
         {
             beginShape();
             vertex(lineX,lineY);
-            lineX++;
-            lineY = map(oscilAmp, 500, 1250, 450, 50);
+            lineX += 1;
+            lineY = map(oscilAmp, ampMin, ampMax, height - border, border);
             oscilAmp -= 1 + offset;
             wave.setFrequency(oscilAmp);
             vertex(lineX,lineY);
             endShape();
-            offset -= 0.01f;
+            offset -= lineOffset;
         }
         count ++;
         if(count == parabTop)
@@ -167,6 +173,7 @@ public class Startup extends PApplet
         float barX = barFrameX + padding;
         float barY = barFrameY + padding;
         float barH = barFrameH - (padding * 2);
+        float barWIncrement = 2;
 
         textAlign(CENTER, CENTER);
 
@@ -178,11 +185,7 @@ public class Startup extends PApplet
         rect(barFrameX, barFrameY, barFrameW, barFrameH, padding);
         fill(255);
         rect(barX, barY, barW, barH);
-        barW += 1f;
-        // for(barW = 0; barW <= barFrameW - (padding * 2); barW++)
-        // {
-        //     rect(barX, barY, barW, barH);   
-        // }
+        barW += barWIncrement;
         if(barW == (barFrameW - (padding * 2)))
         {
             loaded = true;
