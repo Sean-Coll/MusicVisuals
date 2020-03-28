@@ -35,6 +35,7 @@ public class Startup extends PApplet
     public void settings()
     {
         size(500,500);
+        // fullScreen();
     }
 
     public void setup()
