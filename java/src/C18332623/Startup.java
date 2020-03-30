@@ -19,12 +19,17 @@ public class Startup extends PApplet
     Oscil wave;
     PFont consoleFont;
 
+    float cx;
+    float cy;
+    float border;
+
     float oscilAmp = 500;
     float lineX = 0;
-    float lineY = (height / 15);
+    float lineY;
     float offset = 0.1f;
-    int count = 0;
+
     boolean halfParab = false;
+    boolean fullParab = false;
     boolean loaded = false;
     boolean welcomed = false;
     boolean start = false;
@@ -43,10 +48,14 @@ public class Startup extends PApplet
 
         out = minim.getLineOut();
         wave = new Oscil(oscilAmp, 0.5f, Waves.SINE);
-        consoleFont = createFont("LUCON.TTF", 32);
+        consoleFont = createFont("LUCON.TTF", 45);
         textFont(consoleFont);
         background(0);
         colorMode(HSB);
+
+        cx = width / 2;
+        cy = height / 2;
+        border = width / 15;
     }
 
     public void draw()
@@ -69,11 +78,11 @@ public class Startup extends PApplet
             }
             if(loaded == true)
             {
-                if(count <= width)
+                if(fullParab == false)
                 {
                     drawParabola();
                 }
-                if(count >= width)
+                if(fullParab == true)
                 {
                     minim.stop();
                     background(0);
@@ -88,9 +97,6 @@ public class Startup extends PApplet
 
     public void welcome()
     {
-        float cx = width / 2;
-        float cy = height / 2;
-        float border = width / 15;
         float topAlignY = cy - (cy /2);
         float bulletOffsetX = cx - (cx / 2);
         float bulletOffsetY = topAlignY / 2;
@@ -99,7 +105,7 @@ public class Startup extends PApplet
         background(0);
         noFill();
         stroke(255);
-        textSize(45);
+        // textSize(45);
         textAlign(CENTER, CENTER);
 
         text("Welcome!", cx, border);
@@ -119,52 +125,45 @@ public class Startup extends PApplet
         float ampMin = 500;
         float ampMax = 4000;
         float lineCol = map(oscilAmp, ampMin, ampMax, 0, 255);
-        float parabTop = width / 2;
-        float border = height / 15;
-        float lineOffset = 0.01f;
+        float lineOffset = 0.04f;
+        float stepUp = 2;
+
         lineY = map(oscilAmp, ampMin, ampMax, height - border,  border);
         
-        strokeWeight(10);
+        strokeWeight(width / 30);
         stroke(lineCol, 255, 255);
 
-        if(halfParab == false)
-        {
-            beginShape();
-            vertex(lineX,lineY);
-            lineX += 1;
-            lineY = map(oscilAmp, ampMin, ampMax, height - border,  border);
-            oscilAmp += 1 + offset;
-            wave.setFrequency(oscilAmp);
-            vertex(lineX,lineY);
-            endShape();
-            offset += lineOffset;
-        }
-        
+        beginShape();
+        vertex(lineX,lineY);
+        lineY = map(oscilAmp, ampMin, ampMax, height - border,  border);
         if(halfParab == true)
         {
-            beginShape();
-            vertex(lineX,lineY);
-            lineX += 1;
-            lineY = map(oscilAmp, ampMin, ampMax, height - border, border);
-            oscilAmp -= 1 + offset;
-            wave.setFrequency(oscilAmp);
-            vertex(lineX,lineY);
-            endShape();
+            oscilAmp -= stepUp + offset;
             offset -= lineOffset;
         }
-        count ++;
-        if(count == parabTop)
+        else
+        {
+            oscilAmp += stepUp + offset;
+            offset += lineOffset;
+        }
+        wave.setFrequency(oscilAmp);
+        vertex(lineX,lineY);
+        endShape();
+
+        lineX += stepUp;
+
+        if(lineX == cx)
         {
             halfParab = true;
         }
-            
-        
+        if(lineX == width)
+        {
+            fullParab = true;
+        }
     }
 
     public void loadingBar()
     {
-        float cx = width / 2;
-        float cy = height / 2;
         float barFrameX = cx /2;
         float barFrameY = cy + (cy / 2);
         float barFrameH = cy / 10;
@@ -196,9 +195,6 @@ public class Startup extends PApplet
 
     public void checksComplete()
     {
-        float cx = width / 2;
-        float cy = height / 2;
-
         text("Checks Complete!\n\nPress s to start...", cx, cy);
     }
 
