@@ -5,16 +5,15 @@ import ddf.minim.Minim;
 import ddf.minim.ugens.Oscil;
 import ddf.minim.ugens.Waves;
 import ie.tudublin.Visual;
-import processing.core.PApplet;
 import processing.core.PFont;
 
 /*  This class will run a startup sequence complete with loading bar,
     parabolic frequency test and colour test
 */
 
-public class Startup extends PApplet
+public class Startup extends Visual
 {
-    Minim minim;
+    Minim testSound;
     AudioOutput out;
     Oscil wave;
     PFont consoleFont;
@@ -44,10 +43,14 @@ public class Startup extends PApplet
 
     public void setup()
     {
-        minim = new Minim(this);
+        testSound = new Minim(this);
 
-        out = minim.getLineOut();
+        out = testSound.getLineOut();
         wave = new Oscil(oscilAmp, 0.5f, Waves.SINE);
+
+        startMinim();
+        loadAudio("Shadowflame.mp3");
+
         consoleFont = createFont("LUCON.TTF", 45);
         textFont(consoleFont);
         background(0);
@@ -84,7 +87,7 @@ public class Startup extends PApplet
                 }
                 if(fullParab == true)
                 {
-                    minim.stop();
+                    testSound.stop();
                     background(0);
                     if (start == false)
                     {
@@ -207,6 +210,8 @@ public class Startup extends PApplet
         if(key =='s')
         {
             start = true;
+            getAudioPlayer().cue(0);
+            getAudioPlayer().play();
         }
     }
 }
