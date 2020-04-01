@@ -7,8 +7,13 @@ import ddf.minim.ugens.Waves;
 import ie.tudublin.Visual;
 import processing.core.PFont;
 
+import C18332623.Ellipse;
+
 /*  This class will run a startup sequence complete with loading bar,
     parabolic frequency test and colour test
+*/
+/*  To control the number of objects on the screen, use an ArrayList to add/remove
+    the desire objects.
 */
 
 public class Startup extends Visual
@@ -32,8 +37,11 @@ public class Startup extends Visual
     boolean loaded = false;
     boolean welcomed = false;
     boolean start = false;
+    boolean musicPlay = false;
 
     float barW = 0;
+
+    Ellipse circ1;
 
     public void settings()
     {
@@ -59,11 +67,29 @@ public class Startup extends Visual
         cx = width / 2;
         cy = height / 2;
         border = width / 15;
+
+        circ1 = new Ellipse(width/2, cx, cy, 255, 255, 255);
     }
 
     public void draw()
     {
-        checker();
+        if(start == false)
+        {
+            checker();
+        }
+        else
+        {
+            phase1();
+        }
+    }
+
+    public void phase1()
+    {
+        // circ1.drawEllipse(circ1.getX(), circ1.getY(), circ1.getRadius(), circ1.getRadius());
+        calculateAverageAmplitude();
+        noStroke();
+        fill(circ1.getHue(), 255, map(getSmoothedAmplitude(), 0, 1, 0, 255) * 2);
+        ellipse(circ1.getX(), circ1.getY(), map(getSmoothedAmplitude(), 0, 1, circ1.getRadius() / 2, circ1.getRadius()), map(getSmoothedAmplitude(), 0, 1, circ1.getRadius() / 2, circ1.getRadius()));
     }
 
     public void checker()
@@ -210,8 +236,15 @@ public class Startup extends Visual
         if(key =='s')
         {
             start = true;
-            getAudioPlayer().cue(0);
-            getAudioPlayer().play();
+            if(musicPlay == false)
+            {
+                background(0);
+                strokeWeight(1);
+                getAudioPlayer().cue(0);
+                getAudioPlayer().play();
+                musicPlay = true;
+            }
+            
         }
     }
 }
