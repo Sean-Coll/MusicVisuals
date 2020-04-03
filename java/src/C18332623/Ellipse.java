@@ -78,9 +78,4 @@ public class Ellipse extends Startup
         this.brightness = bright;
         this.saturation = sat;
     }
-
-    public void drawEllipse(float x, float y, float w, float h)
-    {
-        ellipse(x, y, w, h);
-    }
 }

@@ -7,6 +7,8 @@ import ddf.minim.ugens.Waves;
 import ie.tudublin.Visual;
 import processing.core.PFont;
 
+import java.util.ArrayList;
+
 import C18332623.Ellipse;
 
 /*  This class will run a startup sequence complete with loading bar,
@@ -26,11 +28,12 @@ public class Startup extends Visual
     float cx;
     float cy;
     float border;
-
     float oscilAmp = 500;
     float lineX = 0;
     float lineY;
     float offset = 0.1f;
+    float barW = 0;
+    float hsbMax = 255;
 
     boolean halfParab = false;
     boolean fullParab = false;
@@ -39,9 +42,9 @@ public class Startup extends Visual
     boolean start = false;
     boolean musicPlay = false;
 
-    float barW = 0;
-
+    ArrayList<Ellipse> ellipseAL = new ArrayList<Ellipse>();
     Ellipse circ1;
+    
 
     public void settings()
     {
@@ -68,7 +71,8 @@ public class Startup extends Visual
         cy = height / 2;
         border = width / 15;
 
-        circ1 = new Ellipse(width/2, cx, cy, 255, 255, 255);
+        circ1 = new Ellipse(width/2, cx, cy, hsbMax, hsbMax, hsbMax);
+        ellipseAL.add(circ1);
     }
 
     public void draw()
@@ -87,9 +91,11 @@ public class Startup extends Visual
     {
         // circ1.drawEllipse(circ1.getX(), circ1.getY(), circ1.getRadius(), circ1.getRadius());
         calculateAverageAmplitude();
-        noStroke();
-        fill(circ1.getHue(), 255, map(getSmoothedAmplitude(), 0, 1, 0, 255) * 2);
-        ellipse(circ1.getX(), circ1.getY(), map(getSmoothedAmplitude(), 0, 1, circ1.getRadius() / 2, circ1.getRadius()), map(getSmoothedAmplitude(), 0, 1, circ1.getRadius() / 2, circ1.getRadius()));
+        stroke(0);
+        circ1.setRadius(map(getSmoothedAmplitude(), 0, 1, border, cx));
+        circ1.setHue(map(getSmoothedAmplitude(), 0, 1, 0, hsbMax) * 2);
+        fill(circ1.getHue(), circ1.getHue(), circ1.getHue());
+        ellipse(circ1.getX(), circ1.getY(), circ1.getRadius(), circ1.getRadius());
     }
 
     public void checker()
@@ -153,14 +159,14 @@ public class Startup extends Visual
     {
         float ampMin = 500;
         float ampMax = 4000;
-        float lineCol = map(oscilAmp, ampMin, ampMax, 0, 255);
+        float lineCol = map(oscilAmp, ampMin, ampMax, 0, hsbMax);
         float lineOffset = 0.04f;
         float stepUp = 2;
 
         lineY = map(oscilAmp, ampMin, ampMax, height - border,  border);
         
-        strokeWeight(width / 30);
-        stroke(lineCol, 255, 255);
+        strokeWeight(border / 2);
+        stroke(lineCol, hsbMax, hsbMax);
 
         beginShape();
         vertex(lineX,lineY);
@@ -209,9 +215,9 @@ public class Startup extends Visual
         background(0);
         text("LOADING...", cx, cy);
         noFill();
-        stroke(255);
+        stroke(hsbMax);
         rect(barFrameX, barFrameY, barFrameW, barFrameH, padding);
-        fill(255);
+        fill(hsbMax);
         rect(barX, barY, barW, barH);
         barW += barWIncrement;
         if(barW == (barFrameW - (padding * 2)))
