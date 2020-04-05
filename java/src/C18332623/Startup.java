@@ -89,7 +89,6 @@ public class Startup extends Visual
 
     public void phase1()
     {
-        // circ1.drawEllipse(circ1.getX(), circ1.getY(), circ1.getRadius(), circ1.getRadius());
         calculateAverageAmplitude();
         stroke(0);
         circ1.setRadius(map(getSmoothedAmplitude(), 0, 1, border, cx));
