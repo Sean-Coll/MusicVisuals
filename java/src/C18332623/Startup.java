@@ -36,14 +36,20 @@ public class Startup extends Visual
     float hsbMax = 255;
 
     boolean halfParab = false;
-    boolean fullParab = false;
-    boolean loaded = false;
-    boolean welcomed = false;
-    boolean start = false;
-    boolean musicPlay = false;
 
     ArrayList<Ellipse> ellipseAL = new ArrayList<Ellipse>();
     Ellipse circ1;
+
+    enum Mode
+    {
+        WELCOME,
+        LOAD,
+        PARABOLA,
+        CHECKSCOMPLETE,
+        PHASE1
+    }
+
+    Mode mode = Mode.WELCOME;
     
 
     public void settings()
@@ -77,13 +83,13 @@ public class Startup extends Visual
 
     public void draw()
     {
-        if(start == false)
+        if(mode == Mode.PHASE1)
         {
-            checker();
+            phase1();
         }
         else
         {
-            phase1();
+            checker();
         }
     }
 
@@ -99,32 +105,37 @@ public class Startup extends Visual
 
     public void checker()
     {
-        if(welcomed == false)
+        switch(mode)
         {
-            welcome();
-        }
+            case WELCOME:
+            {
+                welcome();
+                break;
+            }
 
-        if(welcomed == true)
-        {
-            if(loaded == false)
+            case LOAD:
             {
                 loadingBar();
+                break;
             }
-            if(loaded == true)
+
+            case PARABOLA:
             {
-                if(fullParab == false)
-                {
-                    drawParabola();
-                }
-                if(fullParab == true)
-                {
-                    testSound.stop();
-                    background(0);
-                    if (start == false)
-                    {
-                        checksComplete();
-                    }
-                }
+                drawParabola();
+                break;
+            }
+            
+            case CHECKSCOMPLETE:
+            {
+                testSound.stop();
+                background(0);
+                checksComplete();
+                break;
+            }
+            
+            case PHASE1:
+            {
+
             }
         }
     }
@@ -192,7 +203,7 @@ public class Startup extends Visual
         }
         if(lineX == width)
         {
-            fullParab = true;
+            mode = Mode.CHECKSCOMPLETE;
         }
     }
 
@@ -221,7 +232,7 @@ public class Startup extends Visual
         barW += barWIncrement;
         if(barW == (barFrameW - (padding * 2)))
         {
-            loaded = true;
+            mode = Mode.PARABOLA;
             wave.patch(out);
             background(0);
         }
@@ -236,20 +247,22 @@ public class Startup extends Visual
     {
         if(key == ' ')
         {
-            welcomed = true;
+            if(mode == Mode.WELCOME)
+            {
+                mode = Mode.LOAD;
+            }
+            
         }
         if(key =='s')
         {
-            start = true;
-            if(musicPlay == false)
+            if(mode == Mode.CHECKSCOMPLETE)
             {
                 background(0);
                 strokeWeight(1);
                 getAudioPlayer().cue(0);
                 getAudioPlayer().play();
-                musicPlay = true;
-            }
-            
+                mode = Mode.PHASE1;
+            } 
         }
     }
 }
