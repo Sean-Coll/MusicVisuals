@@ -9,8 +9,6 @@ import processing.core.PFont;
 
 import java.util.ArrayList;
 
-import C18332623.Ellipse;
-
 /*  This class will run a startup sequence complete with loading bar,
     parabolic frequency test and colour test
 */
@@ -83,28 +81,6 @@ public class Startup extends Visual
 
     public void draw()
     {
-        if(mode == Mode.PHASE1)
-        {
-            phase1();
-        }
-        else
-        {
-            checker();
-        }
-    }
-
-    public void phase1()
-    {
-        calculateAverageAmplitude();
-        stroke(0);
-        circ1.setW(map(getSmoothedAmplitude(), 0, 1, border, cx));
-        circ1.setHue(map(getSmoothedAmplitude(), 0, 1, 0, hsbMax) * 2);
-        fill(circ1.getHue(), circ1.getHue(), circ1.getHue());
-        ellipse(circ1.getX(), circ1.getY(), circ1.getW(), circ1.getW());
-    }
-
-    public void checker()
-    {
         switch(mode)
         {
             case WELCOME:
@@ -135,9 +111,20 @@ public class Startup extends Visual
             
             case PHASE1:
             {
-
+                phase1();
+                break;
             }
         }
+    }
+
+    public void phase1()
+    {
+        calculateAverageAmplitude();
+        stroke(0);
+        circ1.setRadius(map(getSmoothedAmplitude(), 0, 1, border, cx));
+        circ1.setHue(map(getSmoothedAmplitude(), 0, 1, 0, hsbMax) * 2);
+        fill(circ1.getHue(), circ1.getHue(), circ1.getHue());
+        ellipse(circ1.getX(), circ1.getY(), circ1.getRadius(), circ1.getRadius());
     }
 
     public void welcome()
