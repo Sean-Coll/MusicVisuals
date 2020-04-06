@@ -77,7 +77,7 @@ public class Startup extends Visual
         cy = height / 2;
         border = width / 15;
 
-        circ1 = new Ellipse(width/2, cx, cy, hsbMax, hsbMax, hsbMax);
+        circ1 = new Ellipse(cx, cy, width/2, hsbMax, hsbMax, hsbMax);
         ellipseAL.add(circ1);
     }
 
@@ -97,10 +97,10 @@ public class Startup extends Visual
     {
         calculateAverageAmplitude();
         stroke(0);
-        circ1.setRadius(map(getSmoothedAmplitude(), 0, 1, border, cx));
+        circ1.setW(map(getSmoothedAmplitude(), 0, 1, border, cx));
         circ1.setHue(map(getSmoothedAmplitude(), 0, 1, 0, hsbMax) * 2);
         fill(circ1.getHue(), circ1.getHue(), circ1.getHue());
-        ellipse(circ1.getX(), circ1.getY(), circ1.getRadius(), circ1.getRadius());
+        ellipse(circ1.getX(), circ1.getY(), circ1.getW(), circ1.getW());
     }
 
     public void checker()
@@ -263,6 +263,15 @@ public class Startup extends Visual
                 getAudioPlayer().play();
                 mode = Mode.PHASE1;
             } 
+        }
+        // SHORTCUT TO PHASE1 REMOVE WHEN TESTING/PROGRAM IS COMPLETE
+        if(key == '1')
+        {
+            background(0);
+            strokeWeight(1);
+            getAudioPlayer().cue(0);
+            getAudioPlayer().play();
+            mode = Mode.PHASE1;
         }
     }
 }
