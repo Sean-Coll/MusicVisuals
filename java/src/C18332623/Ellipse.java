@@ -18,5 +18,8 @@ public class Ellipse extends VisualFX
         this.radius = radius;
     }
 
-    
+    public void render()
+    {
+        ellipse(getX(), getY(), radius, radius);
+    }  
 }

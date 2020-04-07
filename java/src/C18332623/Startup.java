@@ -35,7 +35,6 @@ public class Startup extends Visual
 
     boolean halfParab = false;
 
-    ArrayList<Ellipse> ellipseAL = new ArrayList<Ellipse>();
     Ellipse circ1;
 
     enum Mode
@@ -76,7 +75,6 @@ public class Startup extends Visual
         border = width / 15;
 
         circ1 = new Ellipse(cx, cy, width/2, hsbMax, hsbMax, hsbMax);
-        ellipseAL.add(circ1);
     }
 
     public void draw()
@@ -124,7 +122,8 @@ public class Startup extends Visual
         circ1.setRadius(map(getSmoothedAmplitude(), 0, 1, border, cx));
         circ1.setHue(map(getSmoothedAmplitude(), 0, 1, 0, hsbMax) * 2);
         fill(circ1.getHue(), circ1.getHue(), circ1.getHue());
-        ellipse(circ1.getX(), circ1.getY(), circ1.getRadius(), circ1.getRadius());
+        // ellipse(circ1.getX(), circ1.getY(), circ1.getRadius(), circ1.getRadius());
+        circ1.render();
     }
 
     public void welcome()
@@ -137,7 +136,6 @@ public class Startup extends Visual
         background(0);
         noFill();
         stroke(255);
-        // textSize(45);
         textAlign(CENTER, CENTER);
 
         text("Welcome!", cx, border);
