@@ -1,6 +1,7 @@
 package C18332623;
 
 import ie.tudublin.Visual;
+import processing.core.PApplet;
 
 public class VisualFX extends Visual
 {
@@ -90,5 +91,10 @@ public class VisualFX extends Visual
         this.hue = hue;
         this.saturation = sat;
         this.brightness = bright;
+    }
+
+    public void render(PApplet pa)
+    {
+        println("Rendering Object");
     }
 }

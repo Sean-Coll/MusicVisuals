@@ -5,16 +5,11 @@ import ddf.minim.Minim;
 import ddf.minim.ugens.Oscil;
 import ddf.minim.ugens.Waves;
 import ie.tudublin.Visual;
+import processing.core.PApplet;
 import processing.core.PFont;
 
-import java.util.ArrayList;
-
-/*  This class will run a startup sequence complete with loading bar,
-    parabolic frequency test and colour test
-*/
-/*  To control the number of objects on the screen, use an ArrayList to add/remove
-    the desire objects.
-*/
+import C18332623.Ellipse;
+import C18332623.VisualFX;
 
 public class Startup extends Visual
 {
@@ -35,7 +30,8 @@ public class Startup extends Visual
 
     boolean halfParab = false;
 
-    Ellipse circ1;
+    VisualFX circ1 = new Ellipse();
+    PApplet pa;
 
     enum Mode
     {
@@ -119,11 +115,11 @@ public class Startup extends Visual
     {
         calculateAverageAmplitude();
         stroke(0);
-        circ1.setRadius(map(getSmoothedAmplitude(), 0, 1, border, cx));
+        ((Ellipse) circ1).setRadius(map(getSmoothedAmplitude(), 0, 1, border, cx));
         circ1.setHue(map(getSmoothedAmplitude(), 0, 1, 0, hsbMax) * 2);
         fill(circ1.getHue(), circ1.getHue(), circ1.getHue());
         // ellipse(circ1.getX(), circ1.getY(), circ1.getRadius(), circ1.getRadius());
-        circ1.render();
+        circ1.render(pa);
     }
 
     public void welcome()

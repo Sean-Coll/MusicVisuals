@@ -1,13 +1,20 @@
 package C18332623;
 
+import processing.core.PApplet;
+
 public class Ellipse extends VisualFX
 {
     private float radius;
-
+    
     public Ellipse(float x, float y, float radius, float hue, float saturation, float brightness) 
     {
         super(x, y, radius, radius, hue, saturation, brightness);
         this.setRadius(radius);
+    }
+
+    public Ellipse()
+    {
+        this(0,0,0,0,0,0);
     }
 
     public float getRadius() {
@@ -17,9 +24,4 @@ public class Ellipse extends VisualFX
     public void setRadius(float radius) {
         this.radius = radius;
     }
-
-    public void render()
-    {
-        ellipse(getX(), getY(), radius, radius);
-    }  
 }
