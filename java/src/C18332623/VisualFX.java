@@ -12,7 +12,6 @@ public class VisualFX extends Visual
     private float hue;
     private float saturation;
     private float brightness;
-    
 
     public VisualFX(float x, float y, float w, float h, float hue, float saturation, float brightness) {
         this.x = x;
