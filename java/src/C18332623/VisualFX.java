@@ -93,8 +93,8 @@ public class VisualFX extends Visual
         this.brightness = bright;
     }
 
-    public void render(PApplet pa)
-    {
-        println("Rendering Object");
-    }
+    // public void render()
+    // {
+    //     println("Rendering Object");
+    // }
 }

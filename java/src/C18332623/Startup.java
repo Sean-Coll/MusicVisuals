@@ -30,7 +30,7 @@ public class Startup extends Visual
 
     boolean halfParab = false;
 
-    VisualFX circ1 = new Ellipse();
+    VisualFX circ1;
     PApplet pa;
 
     enum Mode
@@ -118,8 +118,8 @@ public class Startup extends Visual
         ((Ellipse) circ1).setRadius(map(getSmoothedAmplitude(), 0, 1, border, cx));
         circ1.setHue(map(getSmoothedAmplitude(), 0, 1, 0, hsbMax) * 2);
         fill(circ1.getHue(), circ1.getHue(), circ1.getHue());
-        // ellipse(circ1.getX(), circ1.getY(), circ1.getRadius(), circ1.getRadius());
-        circ1.render(pa);
+        // ellipse(circ1.getX(), circ1.getY(), ((Ellipse) circ1).getRadius(), ((Ellipse) circ1).getRadius());
+        ((Ellipse) circ1).render();
     }
 
     public void welcome()
