@@ -28,6 +28,11 @@ public class Line extends VisualFX {
         this.y2 = y2;
     }
 
+    @Override
+    public String toString() {
+        return "Line [x2=" + x2 + ", y2=" + y2 + "]";
+    }
+
     public void render(Startup st)
     {
         st.line(getX(), getY(), x2, y2);

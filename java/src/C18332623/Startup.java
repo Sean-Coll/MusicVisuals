@@ -196,10 +196,10 @@ public class Startup extends Visual
         float lineOffset = 0.04f;
         float stepUp = 2;
 
-        lineY = map(oscilAmp, ampMin, ampMax, height - border,  border);
-        
         strokeWeight(border / 2);
         stroke(lineCol, hsbMax, hsbMax);
+
+        lineY = map(oscilAmp, ampMin, ampMax, height - border,  border);
 
         beginShape();
         vertex(lineX,lineY);

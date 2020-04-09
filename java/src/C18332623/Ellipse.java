@@ -23,6 +23,11 @@ public class Ellipse extends VisualFX
         this.radius = radius;
     }
 
+    @Override
+    public String toString() {
+        return "Ellipse [radius=" + radius + "]";
+    }
+
     public void render(Startup st)
     {
         st.ellipse(getX(), getY(), radius, radius);
