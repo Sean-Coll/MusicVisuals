@@ -58,13 +58,16 @@ public class Parabola extends VisualFX
         this.setX(this.getX() + this.stepX);
         if(halfway == true)
         {
-            this.setY(map(this.getX(),0,this.getH(), 0, this.getH()));
+            // this.setY(map(this.getY(), 0, this.getH(), 0, this.getW()));
+            // this.setY(this.getY() + (this.offset * this.stepX));
             offset = offset - stepY;
         }
         else
         {
             // this.setY((this.getY() - (this.stepY + this.stepX)));
-            this.setY(map(this.getX(),0,this.getH(), this.getH(), 0));
+            // this.setY(map(this.offset, 0, this.stepX, this.getH(), 0));
+            // this.setY(this.getY() - (this.offset * this.stepX));
+            this.setY(map(this.getY(), this.offset, 0, st.height, 0));
             offset = offset + stepY;
         }
 
