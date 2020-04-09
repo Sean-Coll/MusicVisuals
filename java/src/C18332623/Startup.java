@@ -10,7 +10,7 @@ import processing.core.PFont;
 
 import C18332623.Ellipse;
 import C18332623.VisualFX;
-// import C18332623.Line;
+import C18332623.Line;
 
 
 public class Startup extends Visual
@@ -74,7 +74,7 @@ public class Startup extends Visual
         border = width / 15;
 
         circ1 = new Ellipse(cx, cy, width/2, hsbMax, hsbMax, hsbMax);
-        // line1 = new Line(0, 100, 200, 100, hsbMax, hsbMax, hsbMax);
+        line1 = new Line(0, 100, 200, 100, hsbMax, hsbMax, hsbMax);
     }
 
     public void draw()
@@ -124,7 +124,7 @@ public class Startup extends Visual
         fill(circ1.getHue(), circ1.getHue(), circ1.getHue());
         // ellipse(circ1.getX(), circ1.getY(), ((Ellipse) circ1).getRadius(), ((Ellipse) circ1).getRadius());
         // ((Ellipse) circ1).render();
-        // ((Line) line1).render(this);
+        ((Line) line1).render(this);
     }
 
     public void welcome()
