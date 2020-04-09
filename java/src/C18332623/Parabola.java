@@ -55,5 +55,22 @@ public class Parabola extends VisualFX
     public void render(Startup st)
     {
         st.vertex(getX(), getY());
+        this.setX(this.getX() + this.stepX);
+        if(halfway == true)
+        {
+            this.setY(map(this.getX(),0,this.getH(), 0, this.getH()));
+            offset = offset - stepY;
+        }
+        else
+        {
+            // this.setY((this.getY() - (this.stepY + this.stepX)));
+            this.setY(map(this.getX(),0,this.getH(), this.getH(), 0));
+            offset = offset + stepY;
+        }
+
+        if(this.getX() == this.getH())
+        {
+            halfway = true;
+        }
     }
 }

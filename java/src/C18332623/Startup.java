@@ -198,41 +198,21 @@ public class Startup extends Visual
         strokeWeight(border / 2);
         stroke(lineCol, hsbMax, hsbMax);
 
-        // lineY = map(oscilAmp, ampMin, ampMax, height - border,  border);
-        parab1.setY(map(oscilAmp, ampMin, ampMax, height - border,  border));
-
         beginShape();
-        // vertex(lineX,lineY);
         ((Parabola) parab1).render(this);
-        // lineY = map(oscilAmp, ampMin, ampMax, height - border,  border);
-        parab1.setY(map(oscilAmp, ampMin, ampMax, height - border,  border));
+        // parab1.setY(map(oscilAmp, ampMin, ampMax, height - border,  border));
+        // parab1.setY(parab1.getY() + ((Parabola) parab1).getOffset());
+        endShape();
         if(((Parabola) parab1).isHalfway() == true)
         {
-            // oscilAmp -= stepUp + offset;
             oscilAmp -=  ((Parabola) parab1).getStepX() + ((Parabola) parab1).getOffset();
-            // offset -= lineOffset;
-            ((Parabola) parab1).setOffset(((Parabola) parab1).getOffset() - ((Parabola) parab1).getStepY());
         }
         else
         {
-            // oscilAmp += stepUp + offset;
-            oscilAmp += ((Parabola) parab1).getStepX() - ((Parabola) parab1).getOffset();
-            // offset += lineOffset;
-            ((Parabola) parab1).setOffset(((Parabola) parab1).getOffset() + ((Parabola) parab1).getStepY());
+            oscilAmp += ((Parabola) parab1).getStepX() + ((Parabola) parab1).getOffset();
         }
+
         wave.setFrequency(oscilAmp);
-        // vertex(lineX,lineY);
-        ((Parabola) parab1).render(this);
-        endShape();
-
-        // lineX += stepUp;
-        ((Parabola) parab1).setX(((Parabola) parab1).getX() + ((Parabola) parab1).getStepX());
-        
-
-        if(((Parabola) parab1).getX() == ((Parabola) parab1).getH())
-        {
-            ((Parabola) parab1).setHalfway(true);
-        }
         if(((Parabola) parab1).getX() == width)
         {
             mode = Mode.CHECKSCOMPLETE;
