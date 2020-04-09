@@ -4,15 +4,15 @@ public class Ellipse extends VisualFX
 {
     private float radius;
     
-    public Ellipse(float x, float y, float radius, float hue, float saturation, float brightness) 
+    public Ellipse(float x, float y, float radius) 
     {
-        super(x, y, radius, radius, hue, saturation, brightness);
+        super(x, y, radius, radius);
         this.setRadius(radius);
     }
 
     public Ellipse()
     {
-        this(0,0,0,0,0,0);
+        this(0,0,0);
     }
 
     public float getRadius() {

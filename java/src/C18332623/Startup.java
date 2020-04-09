@@ -38,6 +38,7 @@ public class Startup extends Visual
 
     VisualFX circ1;
     VisualFX lineLeft;
+    VisualFX lineRight;
     PApplet pa;
 
     enum Mode
@@ -81,8 +82,9 @@ public class Startup extends Visual
 
         pg = createGraphics(width, height);
 
-        circ1 = new Ellipse(cx, cy, width/2, hsbMax, hsbMax, hsbMax);
-        lineLeft = new Line(border * 3, 0, border * 3, height, hsbMax, hsbMax, hsbMax);
+        circ1 = new Ellipse(cx, cy, width/2);
+        lineLeft = new Line(border * 3, 0, border * 3, 0);
+        lineRight = new Line(width - border * 3, 0, width - border * 3, 0);
     }
 
     public void draw()
@@ -127,13 +129,17 @@ public class Startup extends Visual
     {
         float mappedI;
         float lerpedVal;
+        float ampCol;
+        float lineWidth = border * 2;
+        float lineX = border * 3;
+
         background(0);
         calculateAverageAmplitude();
         ab = getAudioBuffer();
         stroke(0);
         ((Ellipse) circ1).setRadius(map(getSmoothedAmplitude(), 0, 1, border, cx));
-        circ1.setHue(map(getSmoothedAmplitude(), 0, 1, 0, hsbMax) * 2);
-        fill(circ1.getHue(), circ1.getHue(), circ1.getHue());
+        ampCol =(map(getSmoothedAmplitude(), 0, 1, 0, hsbMax) * 2);
+        fill(ampCol, ampCol, ampCol);
         ((Ellipse) circ1).render(this);
         for(int i = 1 ; i < ab.size() ; i ++)
         {
@@ -144,10 +150,18 @@ public class Startup extends Visual
 				, 255
 				, 255
             );
-            line(border * 3 - (lerpedVal * border * 2), mappedI, border * 3 + (lerpedVal * border * 2), mappedI);
-            line(width - border * 3 - (lerpedVal * border * 2), mappedI,  width - border * 3 + (lerpedVal * border * 2), mappedI);
+            lineLeft.setX(lineX - (lerpedVal * lineWidth));
+            lineLeft.setY(mappedI);
+            ((Line) lineLeft).setX2(lineX + (lerpedVal * lineWidth));
+            ((Line) lineLeft).setY2(mappedI);
+            lineRight.setX(width - lineX - (lerpedVal * lineWidth));
+            lineRight.setY(mappedI);
+            ((Line) lineRight).setX2(width - lineX + (lerpedVal * lineWidth));
+            ((Line) lineRight).setY2(mappedI);
+
+            ((Line) lineLeft).render(this);
+            ((Line) lineRight).render(this);
         }
-        // ((Line) lineLeft).render(this);
     }
 
     public void welcome()

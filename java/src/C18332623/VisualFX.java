@@ -9,18 +9,12 @@ public class VisualFX extends Visual
     private float y;
     private float w;
     private float h;
-    private float hue;
-    private float saturation;
-    private float brightness;
 
-    public VisualFX(float x, float y, float w, float h, float hue, float saturation, float brightness) {
+    public VisualFX(float x, float y, float w, float h) {
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
-        this.hue = hue;
-        this.brightness = brightness;
-        this.saturation = saturation;
     }
 
     public float getX() {
@@ -55,45 +49,13 @@ public class VisualFX extends Visual
         this.h = h;
     }
 
-    public float getHue() {
-        return hue;
-    }
-
-    public void setHue(float hue) {
-        this.hue = hue;
-    }
-
-    public float getSaturation() {
-        return saturation;
-    }
-
-    public void setSaturation(float saturation) {
-        this.saturation = saturation;
-    }
-
-    public float getBrightness() {
-        return brightness;
-    }
-
-    public void setBrightness(float brightness) {
-        this.brightness = brightness;
-    }
-
     @Override
     public String toString() {
-        return "VisualFX [brightness=" + brightness + ", h=" + h + ", hue=" + hue + ", saturation=" + saturation
-                + ", w=" + w + ", x=" + x + ", y=" + y + "]";
+        return "VisualFX [h=" + h + ", w=" + w + ", x=" + x + ", y=" + y + "]";
     }
 
-    public void changeCol(float hue, float bright, float sat)
+    public void render()
     {
-        this.hue = hue;
-        this.saturation = sat;
-        this.brightness = bright;
+        println("Rendering Object");
     }
-
-    // public void render()
-    // {
-    //     println("Rendering Object");
-    // }
 }
