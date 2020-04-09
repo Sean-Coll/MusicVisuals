@@ -66,7 +66,9 @@ public class Startup extends Visual
         wave = new Oscil(oscilAmp, 0.5f, Waves.SINE);
 
         startMinim();
-        loadAudio("NeverGonnaGiveYouUp.mp3");
+        // loadAudio("NeverGonnaGiveYouUp.mp3");
+        loadAudio("Shadowflame.mp3");
+        // loadAudio("heroplanet.mp3");
 
         consoleFont = createFont("LUCON.TTF", 45);
         textFont(consoleFont);
@@ -142,9 +144,8 @@ public class Startup extends Visual
 				, 255
 				, 255
             );
-            line(width - border * 3 - (lerpedVal * border), mappedI,  width - border * 3 + (lerpedVal * border), mappedI);
-            // line(border * 3 - (lerpedVal * border), mappedI, border * 3 + (lerpedVal * border), mappedI);
-            line(border * 3 - (ab.get(i) * border), mappedI, border * 3 + (ab.get(i) * border), mappedI);
+            line(border * 3 - (lerpedVal * border * 2), mappedI, border * 3 + (lerpedVal * border * 2), mappedI);
+            line(width - border * 3 - (lerpedVal * border * 2), mappedI,  width - border * 3 + (lerpedVal * border * 2), mappedI);
         }
         // ((Line) lineLeft).render(this);
     }
