@@ -39,7 +39,6 @@ public class Line extends VisualFX {
 
     public void render(Startup st)
     {
-        st.stroke(255);
         st.line(getX(), getY(), x2, y2);
     }
 }

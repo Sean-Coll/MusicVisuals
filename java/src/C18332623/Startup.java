@@ -1,13 +1,15 @@
 package C18332623;
 
+import ddf.minim.AudioBuffer;
 import ddf.minim.AudioOutput;
 import ddf.minim.Minim;
 import ddf.minim.ugens.Oscil;
 import ddf.minim.ugens.Waves;
+import example.AudioBandsVisual;
 import ie.tudublin.Visual;
 import processing.core.PApplet;
 import processing.core.PFont;
-
+import processing.core.PGraphics;
 import C18332623.Ellipse;
 import C18332623.VisualFX;
 import C18332623.Line;
@@ -15,10 +17,12 @@ import C18332623.Line;
 
 public class Startup extends Visual
 {
+    AudioBuffer ab;
     Minim testSound;
     AudioOutput out;
     Oscil wave;
     PFont consoleFont;
+    PGraphics pg;
 
     float cx;
     float cy;
@@ -62,7 +66,7 @@ public class Startup extends Visual
         wave = new Oscil(oscilAmp, 0.5f, Waves.SINE);
 
         startMinim();
-        loadAudio("Shadowflame.mp3");
+        loadAudio("NeverGonnaGiveYouUp.mp3");
 
         consoleFont = createFont("LUCON.TTF", 45);
         textFont(consoleFont);
@@ -72,6 +76,8 @@ public class Startup extends Visual
         cx = width / 2;
         cy = height / 2;
         border = width / 15;
+
+        pg = createGraphics(width, height);
 
         circ1 = new Ellipse(cx, cy, width/2, hsbMax, hsbMax, hsbMax);
         lineLeft = new Line(border * 3, 0, border * 3, height, hsbMax, hsbMax, hsbMax);
@@ -117,13 +123,30 @@ public class Startup extends Visual
 
     public void phase1()
     {
+        float mappedI;
+        float lerpedVal;
+        background(0);
         calculateAverageAmplitude();
+        ab = getAudioBuffer();
         stroke(0);
         ((Ellipse) circ1).setRadius(map(getSmoothedAmplitude(), 0, 1, border, cx));
         circ1.setHue(map(getSmoothedAmplitude(), 0, 1, 0, hsbMax) * 2);
         fill(circ1.getHue(), circ1.getHue(), circ1.getHue());
         ((Ellipse) circ1).render(this);
-        ((Line) lineLeft).render(this);
+        for(int i = 1 ; i < ab.size() ; i ++)
+        {
+            lerpedVal = lerp(ab.get(i - 1), ab.get(i), 0.1f);
+            mappedI= map(i, 0, ab.size(), 0, height);
+            stroke(
+				map(i, 0, ab.size(), 0, 255)
+				, 255
+				, 255
+            );
+            line(width - border * 3 - (lerpedVal * border), mappedI,  width - border * 3 + (lerpedVal * border), mappedI);
+            // line(border * 3 - (lerpedVal * border), mappedI, border * 3 + (lerpedVal * border), mappedI);
+            line(border * 3 - (ab.get(i) * border), mappedI, border * 3 + (ab.get(i) * border), mappedI);
+        }
+        // ((Line) lineLeft).render(this);
     }
 
     public void welcome()
