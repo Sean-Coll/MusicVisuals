@@ -2,18 +2,58 @@ package C18332623;
 
 public class Parabola extends VisualFX 
 {
-    public Parabola(float x, float y, float w, float h)
-    {
+    private float stepX;
+    private float stepY; // how much the offset will increase and therefore sharpen the slope
+    private float offset; // how much the y value will go up by
+    private boolean halfway;
+
+    public Parabola(float x, float y, float w, float h, float stepX, float stepY, float offset, boolean halfway) {
         super(x, y, w, h);
+        this.stepX = stepX;
+        this.stepY = stepY;
+        this.offset = offset;
+        this.halfway = halfway;
+    }
+
+    public float getStepX() {
+        return stepX;
+    }
+
+    public void setStepX(float step) {
+        this.stepX = step;
+    }
+
+    public float getStepY() {
+        return stepY;
+    }
+
+    public void setStepY(float setpY) {
+        this.stepY = setpY;
+    }
+
+    public float getOffset() {
+        return offset;
+    }
+
+    public void setOffset(float offset) {
+        this.offset = offset;
+    }
+
+    public boolean isHalfway() {
+        return halfway;
+    }
+
+    public void setHalfway(boolean halfway) {
+        this.halfway = halfway;
     }
 
     @Override
     public String toString() {
-        return "Parabola []";
+        return "Parabola [halfway=" + halfway + ", offset=" + offset + ", stepX=" + stepX + ", stepY=" + stepY + "]";
     }
 
     public void render(Startup st)
     {
-        
+        st.vertex(getX(), getY());
     }
 }

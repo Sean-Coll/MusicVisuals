@@ -39,7 +39,7 @@ public class Startup extends Visual
     VisualFX circ1;
     VisualFX lineLeft;
     VisualFX lineRight;
-    PApplet pa;
+    VisualFX parab1;
 
     enum Mode
     {
@@ -85,6 +85,7 @@ public class Startup extends Visual
         circ1 = new Ellipse(cx, cy, width/2);
         lineLeft = new Line(border * 3, 0, border * 3, 0);
         lineRight = new Line(width - border * 3, 0, width - border * 3, 0);
+        parab1 = new Parabola(0, height - border, width, cx, 2, 0.04f, 0.1f, false);
     }
 
     public void draw()
@@ -193,38 +194,46 @@ public class Startup extends Visual
         float ampMin = 500;
         float ampMax = 4000;
         float lineCol = map(oscilAmp, ampMin, ampMax, 0, hsbMax);
-        float lineOffset = 0.04f;
-        float stepUp = 2;
 
         strokeWeight(border / 2);
         stroke(lineCol, hsbMax, hsbMax);
 
-        lineY = map(oscilAmp, ampMin, ampMax, height - border,  border);
+        // lineY = map(oscilAmp, ampMin, ampMax, height - border,  border);
+        parab1.setY(map(oscilAmp, ampMin, ampMax, height - border,  border));
 
         beginShape();
-        vertex(lineX,lineY);
-        lineY = map(oscilAmp, ampMin, ampMax, height - border,  border);
-        if(halfParab == true)
+        // vertex(lineX,lineY);
+        ((Parabola) parab1).render(this);
+        // lineY = map(oscilAmp, ampMin, ampMax, height - border,  border);
+        parab1.setY(map(oscilAmp, ampMin, ampMax, height - border,  border));
+        if(((Parabola) parab1).isHalfway() == true)
         {
-            oscilAmp -= stepUp + offset;
-            offset -= lineOffset;
+            // oscilAmp -= stepUp + offset;
+            oscilAmp -=  ((Parabola) parab1).getStepX() + ((Parabola) parab1).getOffset();
+            // offset -= lineOffset;
+            ((Parabola) parab1).setOffset(((Parabola) parab1).getOffset() - ((Parabola) parab1).getStepY());
         }
         else
         {
-            oscilAmp += stepUp + offset;
-            offset += lineOffset;
+            // oscilAmp += stepUp + offset;
+            oscilAmp += ((Parabola) parab1).getStepX() - ((Parabola) parab1).getOffset();
+            // offset += lineOffset;
+            ((Parabola) parab1).setOffset(((Parabola) parab1).getOffset() + ((Parabola) parab1).getStepY());
         }
         wave.setFrequency(oscilAmp);
-        vertex(lineX,lineY);
+        // vertex(lineX,lineY);
+        ((Parabola) parab1).render(this);
         endShape();
 
-        lineX += stepUp;
+        // lineX += stepUp;
+        ((Parabola) parab1).setX(((Parabola) parab1).getX() + ((Parabola) parab1).getStepX());
+        
 
-        if(lineX == cx)
+        if(((Parabola) parab1).getX() == ((Parabola) parab1).getH())
         {
-            halfParab = true;
+            ((Parabola) parab1).setHalfway(true);
         }
-        if(lineX == width)
+        if(((Parabola) parab1).getX() == width)
         {
             mode = Mode.CHECKSCOMPLETE;
         }
