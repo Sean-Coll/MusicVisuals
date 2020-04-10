@@ -4,7 +4,7 @@ public class Parabola extends VisualFX
 {
     private float stepX;
     private float stepY; // how much the offset will increase and therefore sharpen the slope
-    private float offset; // how much the y value will go up by
+    private float offset; // how much the y value will go up by. Needs to be divided by 4 for a smooth increase
     private boolean halfway;
 
     public Parabola(float x, float y, float w, float h, float stepX, float stepY, float offset, boolean halfway) {
@@ -58,16 +58,12 @@ public class Parabola extends VisualFX
         this.setX(this.getX() + this.stepX);
         if(halfway == true)
         {
-            // this.setY(map(this.getY(), 0, this.getH(), 0, this.getW()));
-            // this.setY(this.getY() + (this.offset * this.stepX));
+            this.setY(this.getY() + offset / 4);
             offset = offset - stepY;
         }
         else
         {
-            // this.setY((this.getY() - (this.stepY + this.stepX)));
-            // this.setY(map(this.offset, 0, this.stepX, this.getH(), 0));
-            // this.setY(this.getY() - (this.offset * this.stepX));
-            this.setY(map(this.getY(), this.offset, 0, st.height, 0));
+            this.setY(this.getY() - offset / 4);
             offset = offset + stepY;
         }
 
