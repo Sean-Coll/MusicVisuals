@@ -37,8 +37,8 @@ public class Startup extends Visual
     boolean halfParab = false;
 
     VisualFX circ1;
-    VisualFX lineLeft;
-    VisualFX lineRight;
+    VisualFX line1;
+    VisualFX line2;
     VisualFX parab1;
 
     enum Mode
@@ -47,7 +47,8 @@ public class Startup extends Visual
         LOAD,
         PARABOLA,
         CHECKSCOMPLETE,
-        PHASE1
+        PHASE1,
+        PHASE2
     }
 
     Mode mode = Mode.WELCOME;
@@ -67,8 +68,8 @@ public class Startup extends Visual
         wave = new Oscil(oscilAmp, 0.5f, Waves.SINE);
 
         startMinim();
-        // loadAudio("NeverGonnaGiveYouUp.mp3");
-        loadAudio("Shadowflame.mp3");
+        loadAudio("NeverGonnaGiveYouUp.mp3");
+        // loadAudio("Shadowflame.mp3");
         // loadAudio("heroplanet.mp3");
 
         consoleFont = createFont("LUCON.TTF", 45);
@@ -83,8 +84,8 @@ public class Startup extends Visual
         pg = createGraphics(width, height);
 
         circ1 = new Ellipse(cx, cy, width/2);
-        lineLeft = new Line(border * 3, 0, border * 3, 0);
-        lineRight = new Line(width - border * 3, 0, width - border * 3, 0);
+        line1 = new Line(border * 3, 0, border * 3, 0);
+        line2 = new Line(width - border * 3, 0, width - border * 3, 0);
         parab1 = new Parabola(0, height - border, width, cx, 2, 0.04f, 0.1f, false);
     }
 
@@ -123,13 +124,19 @@ public class Startup extends Visual
                 phase1();
                 break;
             }
+
+            case PHASE2:
+            {
+                phase2();
+                break;
+            }
         }
     }
 
+    float mappedI;
+    float lerpedVal;
     public void phase1()
     {
-        float mappedI;
-        float lerpedVal;
         float ampCol;
         float lineWidth = border * 2;
         float lineX = border * 3;
@@ -147,21 +154,48 @@ public class Startup extends Visual
             lerpedVal = lerp(ab.get(i - 1), ab.get(i), 0.1f);
             mappedI= map(i, 0, ab.size(), 0, height);
             stroke(
-				map(i, 0, ab.size(), 0, 255)
-				, 255
-				, 255
+				map(i, 0, ab.size(), 0, hsbMax)
+				, hsbMax
+				, hsbMax
             );
-            lineLeft.setX(lineX - (lerpedVal * lineWidth));
-            lineLeft.setY(mappedI);
-            ((Line) lineLeft).setX2(lineX + (lerpedVal * lineWidth));
-            ((Line) lineLeft).setY2(mappedI);
-            lineRight.setX(width - lineX - (lerpedVal * lineWidth));
-            lineRight.setY(mappedI);
-            ((Line) lineRight).setX2(width - lineX + (lerpedVal * lineWidth));
-            ((Line) lineRight).setY2(mappedI);
+            line1.setX(lineX - (lerpedVal * lineWidth));
+            line1.setY(mappedI);
+            ((Line) line1).setX2(lineX + (lerpedVal * lineWidth));
+            ((Line) line1).setY2(mappedI);
+            line2.setX(width - lineX - (lerpedVal * lineWidth));
+            line2.setY(mappedI);
+            ((Line) line2).setX2(width - lineX + (lerpedVal * lineWidth));
+            ((Line) line2).setY2(mappedI);
 
-            ((Line) lineLeft).render(this);
-            ((Line) lineRight).render(this);
+            ((Line) line1).render(this);
+            ((Line) line2).render(this);
+        }
+    }
+
+    public void phase2()
+    {
+        background(0);
+        float lineHeight = border;
+        for(int i = 1 ; i < ab.size() ; i ++)
+        {
+            lerpedVal = lerp(ab.get(i - 1), ab.get(i), 0.1f);
+            mappedI= map(i, 0, ab.size(), 0, width);
+            stroke(
+				map(i, 0, ab.size(), 0, hsbMax)
+				, hsbMax
+				, hsbMax
+            );
+            line1.setX(mappedI);
+            line1.setY(0);
+            ((Line) line1).setX2(mappedI);
+            ((Line) line1).setY2((lerpedVal * lineHeight) + border);
+            line2.setX(mappedI);
+            line2.setY(height);
+            ((Line) line2).setX2(mappedI);
+            ((Line) line2).setY2(height - (lerpedVal * lineHeight) - border);
+
+            ((Line) line1).render(this);
+            ((Line) line2).render(this);
         }
     }
 
@@ -284,6 +318,11 @@ public class Startup extends Visual
             getAudioPlayer().cue(0);
             getAudioPlayer().play();
             mode = Mode.PHASE1;
+        }
+        if(key == '2')
+        {
+            background(0);
+            mode = Mode.PHASE2;
         }
     }
 }
