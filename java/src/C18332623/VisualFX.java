@@ -1,7 +1,6 @@
 package C18332623;
 
 import ie.tudublin.Visual;
-import processing.core.PApplet;
 
 public class VisualFX extends Visual
 {

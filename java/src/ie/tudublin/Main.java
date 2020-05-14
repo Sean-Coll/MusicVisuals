@@ -1,8 +1,5 @@
 package ie.tudublin;
 
-import example.CubeVisual;
-import example.MyVisual;
-import processing.core.PApplet;
 import C18332623.Startup;
 
 public class Main

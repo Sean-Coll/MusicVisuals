@@ -5,15 +5,9 @@ import ddf.minim.AudioOutput;
 import ddf.minim.Minim;
 import ddf.minim.ugens.Oscil;
 import ddf.minim.ugens.Waves;
-import example.AudioBandsVisual;
 import ie.tudublin.Visual;
-import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PGraphics;
-import C18332623.Ellipse;
-import C18332623.VisualFX;
-import C18332623.Line;
-
 
 public class Startup extends Visual
 {
@@ -40,6 +34,7 @@ public class Startup extends Visual
     VisualFX line1;
     VisualFX line2;
     VisualFX parab1;
+    VisualFX triangle1;
 
     enum Mode
     {
@@ -69,8 +64,8 @@ public class Startup extends Visual
 
         startMinim();
         // loadAudio("NeverGonnaGiveYouUp.mp3");
-        // loadAudio("Shadowflame.mp3");
-        loadAudio("heroplanet.mp3");
+        loadAudio("Shadowflame.mp3");
+        // loadAudio("heroplanet.mp3");
 
         consoleFont = createFont("LUCON.TTF", 45);
         textFont(consoleFont);
@@ -87,6 +82,7 @@ public class Startup extends Visual
         line1 = new Line(border * 3, 0, border * 3, 0);
         line2 = new Line(width - border * 3, 0, width - border * 3, 0);
         parab1 = new Parabola(0, height - border, width, cx, 2, 0.04f, 0.1f, false);
+        triangle1 = new Triangle(width/2, height/2, 100, 100);
     }
 
     public void draw()
@@ -174,7 +170,10 @@ public class Startup extends Visual
 
     public void phase2()
     {
+        strokeWeight(3);
         background(0);
+        fill(0);
+        ((Triangle) triangle1).render(this);
         float lineHeight = border;
         for(int i = 1 ; i < ab.size() ; i ++)
         {
@@ -188,14 +187,17 @@ public class Startup extends Visual
             line1.setX(mappedI);
             line1.setY(0);
             ((Line) line1).setX2(mappedI);
-            ((Line) line1).setY2((lerpedVal * lineHeight) + border);
+            ((Line) line1).setY2((lerpedVal * lineHeight) + (border));
             line2.setX(mappedI);
             line2.setY(height);
             ((Line) line2).setX2(mappedI);
-            ((Line) line2).setY2(height - (lerpedVal * lineHeight) - border);
+            ((Line) line2).setY2(height - (lerpedVal * lineHeight) - (border / 2));
 
             ((Line) line1).render(this);
             ((Line) line2).render(this);
+
+            stroke(255);
+            line(0, border, width, border);
         }
     }
 
