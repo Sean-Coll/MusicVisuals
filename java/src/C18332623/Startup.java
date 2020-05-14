@@ -68,9 +68,9 @@ public class Startup extends Visual
         wave = new Oscil(oscilAmp, 0.5f, Waves.SINE);
 
         startMinim();
-        loadAudio("NeverGonnaGiveYouUp.mp3");
+        // loadAudio("NeverGonnaGiveYouUp.mp3");
         // loadAudio("Shadowflame.mp3");
-        // loadAudio("heroplanet.mp3");
+        loadAudio("heroplanet.mp3");
 
         consoleFont = createFont("LUCON.TTF", 45);
         textFont(consoleFont);
@@ -179,7 +179,7 @@ public class Startup extends Visual
         for(int i = 1 ; i < ab.size() ; i ++)
         {
             lerpedVal = lerp(ab.get(i - 1), ab.get(i), 0.1f);
-            mappedI= map(i, 0, ab.size(), 0, width);
+            mappedI = map(i, 0, ab.size(), 0, width);
             stroke(
 				map(i, 0, ab.size(), 0, hsbMax)
 				, hsbMax
@@ -234,8 +234,6 @@ public class Startup extends Visual
 
         beginShape();
         ((Parabola) parab1).render(this);
-        // parab1.setY(map(oscilAmp, ampMin, ampMax, height - border,  border));
-        // parab1.setY(parab1.getY() + ((Parabola) parab1).getOffset());
         endShape();
         if(((Parabola) parab1).isHalfway() == true)
         {
