@@ -213,7 +213,9 @@ public class Startup extends Visual
 
         if(frameCount % 2 == 0)
         {
-            triangles.add(new Triangle(0, 0, triW, triH, frameCount));
+            triX = random(border, width - border);
+            triY = random(border * 2, (height - (border * 2)) - triH);
+            triangles.add(new Triangle(0, 0, triW, triH, frameCount, triX, triY));
         }
 
         // for(Triangle t : triangles)
@@ -228,12 +230,10 @@ public class Startup extends Visual
 
         for(int i = 0; i < triangles.size(); i++)
         {
-            triX = random(border, width - border);
-            triY = random(border * 2, (height - (border * 2)) - triH);
             // randHue = random(0, hsbMax + 1);
             fill(0, hsbMax, hsbMax);
             pushMatrix();
-            translate(triX, triY);
+            translate(triangles.get(i).getOriginX(), triangles.get(i).getOriginY() + (triangles.get(i).getH() / 2));
             rotate(random(0, TWO_PI));
             triangles.get(i).render(this);
             popMatrix();
