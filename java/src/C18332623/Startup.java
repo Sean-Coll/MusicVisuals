@@ -1,5 +1,7 @@
 package C18332623;
 
+import java.util.ArrayList;
+
 import ddf.minim.AudioBuffer;
 import ddf.minim.AudioOutput;
 import ddf.minim.Minim;
@@ -35,6 +37,7 @@ public class Startup extends Visual
     VisualFX line2;
     VisualFX parab1;
     VisualFX triangle1;
+    ArrayList<Triangle> triangles = new ArrayList<Triangle>();
 
     enum Mode
     {
@@ -82,7 +85,7 @@ public class Startup extends Visual
         line1 = new Line(border * 3, 0, border * 3, 0);
         line2 = new Line(width - border * 3, 0, width - border * 3, 0);
         parab1 = new Parabola(0, height - border, width, cx, 2, 0.04f, 0.1f, false);
-        triangle1 = new Triangle(width/2, height/2, 100, 100);
+        triangle1 = new Triangle(width/2, height/2, 75, 75);
     }
 
     public void draw()
@@ -168,12 +171,19 @@ public class Startup extends Visual
         }
     }
 
+    float randHue = 0;
     public void phase2()
     {
+        float triH = 75;
+        float triW = 75;
+        float triX = 0;
+        float triY = 0;
+        
+
         strokeWeight(3);
         background(0);
         fill(0);
-        ((Triangle) triangle1).render(this);
+        // ((Triangle) triangle1).render(this);
         float lineHeight = border;
         for(int i = 1 ; i < ab.size() ; i ++)
         {
@@ -191,13 +201,28 @@ public class Startup extends Visual
             line2.setX(mappedI);
             line2.setY(height);
             ((Line) line2).setX2(mappedI);
-            ((Line) line2).setY2(height - (lerpedVal * lineHeight) - (border / 2));
+            ((Line) line2).setY2((height - border) - (lerpedVal * lineHeight));
 
             ((Line) line1).render(this);
             ((Line) line2).render(this);
 
             stroke(255);
-            line(0, border, width, border);
+            line(0, border * 2, width, border * 2);
+            line(0, height - (border * 2), width, height - (border * 2));
+        }
+
+        if(frameCount % 10 == 0)
+        {
+            randHue = random(0, hsbMax);
+            triX = random(border, width - border);
+            triY = random(border * 2, (height - (border * 2)) - triH);
+            triangles.add(new Triangle(triX, triY, triW, triH));
+        }
+
+        for(Triangle t : triangles)
+        {
+            fill(randHue, hsbMax, hsbMax);
+            t.render(this);
         }
     }
 
