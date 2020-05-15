@@ -36,7 +36,6 @@ public class Startup extends Visual
     VisualFX line1;
     VisualFX line2;
     VisualFX parab1;
-    VisualFX triangle1;
     ArrayList<Triangle> triangles = new ArrayList<Triangle>();
 
     enum Mode
@@ -85,7 +84,6 @@ public class Startup extends Visual
         line1 = new Line(border * 3, 0, border * 3, 0);
         line2 = new Line(width - border * 3, 0, width - border * 3, 0);
         parab1 = new Parabola(0, height - border, width, cx, 2, 0.04f, 0.1f, false);
-        // triangle1 = new Triangle(width/2, height/2, 75, 75);
     }
 
     public void draw()
@@ -139,6 +137,7 @@ public class Startup extends Visual
         float ampCol;
         float lineWidth = border * 2;
         float lineX = border * 3;
+        triangles.clear();
 
         background(0);
         calculateAverageAmplitude();
@@ -171,7 +170,8 @@ public class Startup extends Visual
         }
     }
 
-    float randHue = 0;
+    float triHue = 0;
+    float triHueOffset = 0;
     float rotOffset = 0;
     public void phase2()
     {
@@ -179,12 +179,10 @@ public class Startup extends Visual
         float triW = 75;
         float triX = 0;
         float triY = 0;
-        
 
-        strokeWeight(3);
         background(0);
+        strokeWeight(3);
         fill(0);
-        // ((Triangle) triangle1).render(this);
         float lineHeight = border;
         for(int i = 1 ; i < ab.size() ; i ++)
         {
@@ -206,34 +204,32 @@ public class Startup extends Visual
 
             ((Line) line1).render(this);
             ((Line) line2).render(this);
-
-            stroke(255);
-            line(0, border * 2, width, border * 2);
-            line(0, height - (border * 2), width, height - (border * 2));
         }
 
         if(frameCount % 2 == 0)
         {
             triX = random(border, width - border);
-            triY = random(border * 2, (height - (border * 2)) - triH);
+            triY = random(border * 2 + (triH / 2), (height - (border * 2)) - (triH / 2));
             triangles.add(new Triangle(0, -(triH / 2), triW, triH, frameCount, triX, triY));
         }
+    
+        stroke(hsbMax);
 
         for(int i = 0; i < triangles.size(); i++)
         {
-            // randHue = random(0, hsbMax + 1);
-            fill(0, hsbMax, hsbMax);
-            pushMatrix();
+            push();
+            fill((triHue + i * 5) % 255, hsbMax, hsbMax);
             translate(triangles.get(i).getOriginX(), triangles.get(i).getOriginY());
             rotate(radians(i + rotOffset));
             triangles.get(i).render(this);
-            popMatrix();
-            triangleFade(triangles.get(i), frameCount);
+            triangleRemove(triangles.get(i));
             rotOffset += 0.1f;
+            triHue = (triHue + 0.05f);
+            pop();
         }
     }
 
-    public void triangleFade(Triangle t, float startTime)
+    public void triangleRemove(Triangle t)
     {  
         if(frameCount == t.getCreateTime() + 60)
         {
@@ -355,14 +351,21 @@ public class Startup extends Visual
         {
             background(0);
             strokeWeight(1);
-            getAudioPlayer().cue(0);
-            getAudioPlayer().play();
+            if(mode != Mode.PHASE2)
+            {
+                getAudioPlayer().cue(0);
+                getAudioPlayer().play();
+            }
             mode = Mode.PHASE1;
         }
         if(key == '2')
         {
-            background(0);
-            mode = Mode.PHASE2;
+            if(mode != Mode.PHASE2)
+            {
+                background(0);
+                triangles.clear();
+                mode = Mode.PHASE2;
+            }
         }
     }
 }
