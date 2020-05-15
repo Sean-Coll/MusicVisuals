@@ -85,7 +85,7 @@ public class Startup extends Visual
         line1 = new Line(border * 3, 0, border * 3, 0);
         line2 = new Line(width - border * 3, 0, width - border * 3, 0);
         parab1 = new Parabola(0, height - border, width, cx, 2, 0.04f, 0.1f, false);
-        triangle1 = new Triangle(width/2, height/2, 75, 75);
+        // triangle1 = new Triangle(width/2, height/2, 75, 75);
     }
 
     public void draw()
@@ -211,18 +211,41 @@ public class Startup extends Visual
             line(0, height - (border * 2), width, height - (border * 2));
         }
 
-        if(frameCount % 10 == 0)
+        if(frameCount % 2 == 0)
         {
-            randHue = random(0, hsbMax);
-            triX = random(border, width - border);
-            triY = random(border * 2, (height - (border * 2)) - triH);
-            triangles.add(new Triangle(triX, triY, triW, triH));
+            triangles.add(new Triangle(0, 0, triW, triH, frameCount));
         }
 
-        for(Triangle t : triangles)
+        // for(Triangle t : triangles)
+        // {
+        //     push();
+        //     randHue = random(0, hsbMax + 1);
+        //     fill(randHue, hsbMax, hsbMax);
+        //     t.render(this);
+        //     pop();
+        //     triangleFade(t);
+        // }
+
+        for(int i = 0; i < triangles.size(); i++)
         {
-            fill(randHue, hsbMax, hsbMax);
-            t.render(this);
+            triX = random(border, width - border);
+            triY = random(border * 2, (height - (border * 2)) - triH);
+            // randHue = random(0, hsbMax + 1);
+            fill(0, hsbMax, hsbMax);
+            pushMatrix();
+            translate(triX, triY);
+            rotate(random(0, TWO_PI));
+            triangles.get(i).render(this);
+            popMatrix();
+            triangleFade(triangles.get(i), frameCount);
+        }
+    }
+
+    public void triangleFade(Triangle t, float startTime)
+    {  
+        if(frameCount == t.getCreateTime() + 60)
+        {
+            triangles.remove(t);
         }
     }
 
