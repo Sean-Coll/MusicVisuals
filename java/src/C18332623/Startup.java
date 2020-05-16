@@ -45,7 +45,8 @@ public class Startup extends Visual
         PARABOLA,
         CHECKSCOMPLETE,
         PHASE1,
-        PHASE2
+        PHASE2,
+        PHASE3
     }
 
     Mode mode = Mode.WELCOME;
@@ -125,6 +126,12 @@ public class Startup extends Visual
             case PHASE2:
             {
                 phase2();
+                break;
+            }
+
+            case PHASE3:
+            {
+                phase3();
                 break;
             }
         }
@@ -235,6 +242,11 @@ public class Startup extends Visual
         {
             triangles.remove(t);
         }
+    }
+
+    public void phase3()
+    {
+
     }
 
     public void welcome()
@@ -366,6 +378,12 @@ public class Startup extends Visual
                 triangles.clear();
                 mode = Mode.PHASE2;
             }
+        }
+        if(key == '3')
+        {
+            background(0);
+            triangles.clear();
+            mode = Mode.PHASE3;
         }
     }
 }
