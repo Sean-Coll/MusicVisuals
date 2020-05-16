@@ -178,7 +178,6 @@ public class Startup extends Visual
     }
 
     float triHue = 0;
-    float triHueOffset = 0;
     float rotOffset = 0;
     public void phase2()
     {
@@ -190,6 +189,7 @@ public class Startup extends Visual
         background(0);
         strokeWeight(3);
         fill(0);
+        calculateAverageAmplitude();
         float lineHeight = border;
         for(int i = 1 ; i < ab.size() ; i ++)
         {
@@ -244,9 +244,72 @@ public class Startup extends Visual
         }
     }
 
+    // float lineHue = 0;
+    // public void phase3()
+    // {
+    //     background(0);
+    //     strokeWeight(1);
+    //     translate(width / 2, height / 2);
+
+    //     float mappedY = 0;
+
+    //     for(int i = 1; i < 50; i ++)
+    //     {
+    //         push();
+    //         rotate(radians(i * 5));
+    //         mappedY = map(getSmoothedAmplitude(), 0, 1, 0, width / 2) * 10;
+    //         stroke(lineHue % hsbMax, hsbMax, hsbMax);
+    //         // rotate(radians(i * 2));
+    //         // line(0, i * 10 + rotOffset, 0, -i * 10 - rotOffset);
+    //         // line(0, mappedY, 0, -mappedY);
+    //         lineHue += (hsbMax / 50);
+    //         line1.setX(0);
+    //         line1.setY(i + mappedY + rotOffset);
+    //         ((Line) line1).setX2(0);
+    //         ((Line) line1).setY2(-(i + mappedY) - rotOffset);
+    //         ((Line) line1).render(this);
+    //         pop();
+    //     }   
+    // }
+
+    float lineHue = 0;
     public void phase3()
     {
+        background(0);
+        // for(int i = 1; i < 50; i++)
+        // {
+            drawSpiralLine(1);
+        // }
+    }
 
+    // float i = 1;
+    public void drawSpiralLine(int j)
+    {
+        strokeWeight(1);
+        translate(cx, cy);
+        calculateAverageAmplitude();
+
+        float mappedY = 0;
+        
+        for(int i = 1; i < 37; i ++)
+        {
+            push();
+            rotate(radians(-(i * 5 + rotOffset)));
+            mappedY = map(getSmoothedAmplitude(), 0, 1, 100, width / 3);
+            stroke(lineHue % hsbMax, hsbMax, hsbMax);
+            // rotate(radians(i * 2));
+            // line(0, i * 10 + rotOffset, 0, -i * 10 - rotOffset);
+            // line(0, mappedY, 0, -mappedY);
+            lineHue += (hsbMax / 37);
+            line1.setX(0);
+            line1.setY(i * 3 + mappedY);
+            ((Line) line1).setX2(0);
+            ((Line) line1).setY2(-(i * 3 + mappedY));
+            ((Line) line1).render(this);
+            // i++; 
+            rotOffset += 0.005f;
+            pop();
+        }  
     }
 
     public void welcome()
