@@ -294,8 +294,8 @@ public class Startup extends Visual
         for(int i = 1; i < 37; i ++)
         {
             push();
-            rotate(radians(-(i * 5 + rotOffset)));
-            mappedY = map(getSmoothedAmplitude(), 0, 1, 100, width / 3);
+            rotate(radians((i * 5 + rotOffset)));
+            mappedY = map(getSmoothedAmplitude(), 0, 1, border * 2, width / 3);
             stroke(lineHue % hsbMax, hsbMax, hsbMax);
             // rotate(radians(i * 2));
             // line(0, i * 10 + rotOffset, 0, -i * 10 - rotOffset);
