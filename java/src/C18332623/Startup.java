@@ -306,7 +306,6 @@ public class Startup extends Visual
             ((Line) line1).setX2(0);
             ((Line) line1).setY2(-(i * 3 + mappedY));
             ((Line) line1).render(this);
-            // i++; 
             rotOffset += 0.005f;
             pop();
         }  
