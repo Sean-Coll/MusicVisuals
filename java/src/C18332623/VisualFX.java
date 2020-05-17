@@ -2,6 +2,8 @@ package C18332623;
 
 import ie.tudublin.Visual;
 
+// This is the super class for all visual effects/shapes
+
 public class VisualFX extends Visual
 {
     private float x;

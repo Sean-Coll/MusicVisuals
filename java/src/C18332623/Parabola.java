@@ -1,10 +1,12 @@
 package C18332623;
 
+// This class draws parabolas where the height field is the midpoint
+
 public class Parabola extends VisualFX 
 {
-    private float stepX;
-    private float stepY; // how much the offset will increase and therefore sharpen the slope
-    private float offset; // how much the y value will go up by. Needs to be divided by 4 for a smooth increase
+    private float stepX; // How much the parabola will widen with each iteration
+    private float stepY; // How much the offset will increase and therefore sharpen the slope
+    private float offset; // How much the y value will go up by. Needs to be divided by 4 for a smooth increase
     private boolean halfway;
 
     public Parabola(float x, float y, float w, float h, float stepX, float stepY, float offset, boolean halfway) {

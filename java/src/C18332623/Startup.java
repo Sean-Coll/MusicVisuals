@@ -381,7 +381,7 @@ public class Startup extends Visual
         {
             background(0);
             strokeWeight(1);
-            if(mode != Mode.PHASE2)
+            if(mode != Mode.PHASE2 && mode != Mode.PHASE3)
             {
                 getAudioPlayer().cue(0);
                 getAudioPlayer().play();

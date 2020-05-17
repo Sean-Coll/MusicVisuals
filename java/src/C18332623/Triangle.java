@@ -1,5 +1,8 @@
 package C18332623;
 
+// This class draws triangle objects based on a single x and y value and the width and height.
+// Therefore, if the width and height are the same, the trianglle will be equilateral.
+
 public class Triangle extends VisualFX
 {
     private float createTime;
@@ -42,7 +45,7 @@ public class Triangle extends VisualFX
     public String toString() {
         return "Triangle [createTime=" + createTime + ", originX=" + originX + ", originY=" + originY + "]";
     }
-    
+
     public void render(Startup st)
     {
         st.triangle(getX(), getY(), 
