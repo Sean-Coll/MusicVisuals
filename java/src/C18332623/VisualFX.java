@@ -55,6 +55,6 @@ public class VisualFX extends Visual
 
     public void render()
     {
-        println("Rendering Object");
+
     }
 }
