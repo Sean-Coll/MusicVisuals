@@ -65,7 +65,7 @@ public class Startup extends Visual
         textFont(consoleFont);
         background(0);
         colorMode(HSB);
-
+        noCursor();
         cx = width / 2;
         cy = height / 2;
         border = width / 15;
@@ -217,7 +217,7 @@ public class Startup extends Visual
         for(int i = 0; i < triangles.size(); i++)
         {
             push();
-            fill((triHue + i * hueMultiplier) % 255, hsbMax, hsbMax);
+            fill((triHue + i * hueMultiplier) % hsbMax, hsbMax, hsbMax);
             translate(triangles.get(i).getOriginX(), triangles.get(i).getOriginY());
             rotate(radians(i + rotOffset));
             triangles.get(i).render(this);
@@ -275,7 +275,7 @@ public class Startup extends Visual
 
         background(0);
         noFill();
-        stroke(255);
+        stroke(hsbMax);
         textAlign(CENTER, CENTER);
 
         text("Welcome!", cx, border);
@@ -333,7 +333,7 @@ public class Startup extends Visual
 
         textAlign(CENTER, CENTER);
 
-        fill(255);
+        fill(hsbMax);
         background(0);
         text("LOADING...", cx, cy);
         noFill();

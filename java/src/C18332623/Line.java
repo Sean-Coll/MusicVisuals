@@ -1,7 +1,5 @@
 package C18332623;
 
-// This class draws lines
-
 public class Line extends VisualFX {
 
     private float x2;
