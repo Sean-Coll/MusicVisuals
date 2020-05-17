@@ -1,7 +1,6 @@
 package C18332623;
 
 import java.util.ArrayList;
-
 import ddf.minim.AudioBuffer;
 import ddf.minim.AudioOutput;
 import ddf.minim.Minim;
@@ -25,8 +24,6 @@ public class Startup extends Visual
     float border;
     float hsbMax = 255;
 
-    // boolean halfParab = false;
-
     VisualFX circ1;
     VisualFX line1;
     VisualFX line2;
@@ -46,7 +43,6 @@ public class Startup extends Visual
 
     Mode mode = Mode.WELCOME;
     
-
     public void settings()
     {
         size(500,500);
@@ -62,9 +58,8 @@ public class Startup extends Visual
         wave = new Oscil(oscilAmp, 0.5f, Waves.SINE);
 
         startMinim();
-        // loadAudio("NeverGonnaGiveYouUp.mp3");
+
         loadAudio("Shadowflame.mp3");
-        // loadAudio("heroplanet.mp3");
 
         consoleFont = createFont("LUCON.TTF", 45);
         textFont(consoleFont);
