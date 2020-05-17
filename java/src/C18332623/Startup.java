@@ -353,6 +353,7 @@ public class Startup extends Visual
     public void checksComplete()
     {
         text("Checks Complete!\n\nPress s to start...", cx, cy);
+        text("Then press 1, 2, or 3 to switch between effects.", cx, height - border);
     }
 
     public void keyPressed()
@@ -376,21 +377,20 @@ public class Startup extends Visual
                 mode = Mode.PHASE1;
             } 
         }
-        // SHORTCUT TO PHASE1 REMOVE WHEN TESTING/PROGRAM IS COMPLETE
+ 
         if(key == '1')
         {
-            background(0);
-            strokeWeight(1);
-            if(mode != Mode.PHASE2 && mode != Mode.PHASE3)
+            if(mode == Mode.PHASE2 || mode == Mode.PHASE3)
             {
-                getAudioPlayer().cue(0);
-                getAudioPlayer().play();
+                background(0);
+                strokeWeight(1);
+                mode = Mode.PHASE1;
             }
-            mode = Mode.PHASE1;
+           
         }
         if(key == '2')
         {
-            if(mode != Mode.PHASE2)
+            if(mode == Mode.PHASE1 || mode == Mode.PHASE3)
             {
                 background(0);
                 triangles.clear();
@@ -399,9 +399,11 @@ public class Startup extends Visual
         }
         if(key == '3')
         {
-            background(0);
-            triangles.clear();
-            mode = Mode.PHASE3;
+            if(mode == Mode.PHASE1 || mode == Mode.PHASE2)
+            {
+                background(0);
+                mode = Mode.PHASE3;
+            }
         }
     }
 }
