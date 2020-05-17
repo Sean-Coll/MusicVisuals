@@ -14,18 +14,6 @@ public class Triangle extends VisualFX
         this.originY = oy;
     }
 
-    @Override
-    public String toString() {
-        return "Triangle []";
-    }
-
-    public void render(Startup st)
-    {
-        st.triangle(getX(), getY(), 
-                    getX() - (getW() / 2), getY() + getH(), 
-                    getX() + (getW() / 2), getY() + getH());
-    }
-
     public float getCreateTime() {
         return createTime;
     }
@@ -48,5 +36,17 @@ public class Triangle extends VisualFX
 
     public void setOriginY(float originY) {
         this.originY = originY;
+    }
+
+    @Override
+    public String toString() {
+        return "Triangle [createTime=" + createTime + ", originX=" + originX + ", originY=" + originY + "]";
+    }
+    
+    public void render(Startup st)
+    {
+        st.triangle(getX(), getY(), 
+                    getX() - (getW() / 2), getY() + getH(), 
+                    getX() + (getW() / 2), getY() + getH());
     }
 }

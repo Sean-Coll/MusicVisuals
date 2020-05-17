@@ -23,14 +23,9 @@ public class Startup extends Visual
     float cx;
     float cy;
     float border;
-    float oscilAmp = 500;
-    float lineX = 0;
-    float lineY;
-    float offset = 0.1f;
-    float barW = 0;
     float hsbMax = 255;
 
-    boolean halfParab = false;
+    // boolean halfParab = false;
 
     VisualFX circ1;
     VisualFX line1;
@@ -58,6 +53,7 @@ public class Startup extends Visual
         fullScreen();
     }
 
+    float oscilAmp = 500;
     public void setup()
     {
         testSound = new Minim(this);
@@ -244,67 +240,30 @@ public class Startup extends Visual
         }
     }
 
-    // float lineHue = 0;
-    // public void phase3()
-    // {
-    //     background(0);
-    //     strokeWeight(1);
-    //     translate(width / 2, height / 2);
-
-    //     float mappedY = 0;
-
-    //     for(int i = 1; i < 50; i ++)
-    //     {
-    //         push();
-    //         rotate(radians(i * 5));
-    //         mappedY = map(getSmoothedAmplitude(), 0, 1, 0, width / 2) * 10;
-    //         stroke(lineHue % hsbMax, hsbMax, hsbMax);
-    //         // rotate(radians(i * 2));
-    //         // line(0, i * 10 + rotOffset, 0, -i * 10 - rotOffset);
-    //         // line(0, mappedY, 0, -mappedY);
-    //         lineHue += (hsbMax / 50);
-    //         line1.setX(0);
-    //         line1.setY(i + mappedY + rotOffset);
-    //         ((Line) line1).setX2(0);
-    //         ((Line) line1).setY2(-(i + mappedY) - rotOffset);
-    //         ((Line) line1).render(this);
-    //         pop();
-    //     }   
-    // }
-
     float lineHue = 0;
     public void phase3()
     {
         background(0);
-        // for(int i = 1; i < 50; i++)
-        // {
-            drawSpiralLine(1);
-        // }
-    }
-
-    // float i = 1;
-    public void drawSpiralLine(int j)
-    {
         strokeWeight(1);
         translate(cx, cy);
         calculateAverageAmplitude();
 
         float mappedY = 0;
+        float lengthMultiplier = 3;
+        float rotateMultipler = 5;
+        int maxNumLines = 37;
         
-        for(int i = 1; i < 37; i ++)
+        for(int i = 1; i < maxNumLines; i ++)
         {
             push();
-            rotate(radians((i * 5 + rotOffset)));
-            mappedY = map(getSmoothedAmplitude(), 0, 1, border * 2, width / 3);
+            rotate(radians((i * rotateMultipler + rotOffset)));
+            mappedY = map(getSmoothedAmplitude(), 0, 1, border * 2, width / lengthMultiplier);
             stroke(lineHue % hsbMax, hsbMax, hsbMax);
-            // rotate(radians(i * 2));
-            // line(0, i * 10 + rotOffset, 0, -i * 10 - rotOffset);
-            // line(0, mappedY, 0, -mappedY);
-            lineHue += (hsbMax / 37);
+            lineHue += (hsbMax / maxNumLines);
             line1.setX(0);
-            line1.setY(i * 3 + mappedY);
+            line1.setY(i * lengthMultiplier + mappedY);
             ((Line) line1).setX2(0);
-            ((Line) line1).setY2(-(i * 3 + mappedY));
+            ((Line) line1).setY2(-(i * lengthMultiplier + mappedY));
             ((Line) line1).render(this);
             rotOffset += 0.005f;
             pop();
@@ -363,6 +322,7 @@ public class Startup extends Visual
         }
     }
 
+    float barW = 0;
     public void loadingBar()
     {
         float barFrameX = cx /2;
