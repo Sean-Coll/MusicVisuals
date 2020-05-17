@@ -181,6 +181,7 @@ public class Startup extends Visual
         float triW = 75;
         float triX = 0;
         float triY = 0;
+        float hueMultiplier = 5;
 
         background(0);
         strokeWeight(3);
@@ -221,7 +222,7 @@ public class Startup extends Visual
         for(int i = 0; i < triangles.size(); i++)
         {
             push();
-            fill((triHue + i * 5) % 255, hsbMax, hsbMax);
+            fill((triHue + i * hueMultiplier) % 255, hsbMax, hsbMax);
             translate(triangles.get(i).getOriginX(), triangles.get(i).getOriginY());
             rotate(radians(i + rotOffset));
             triangles.get(i).render(this);
